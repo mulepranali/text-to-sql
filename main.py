@@ -1,3 +1,4 @@
+
 # Load environment variables
 from dotenv import load_dotenv
 load_dotenv()
@@ -6,6 +7,43 @@ import streamlit as st
 import os
 import sqlite3
 import google.generativeai as genai
+
+# ✅ Fix: Move this to the top before any Streamlit UI code
+st.set_page_config(page_title="SQL Query Generator")
+
+# Function to set background image
+def set_bg_image():
+    image_url = "https://i.pinimg.com/736x/df/8f/c2/df8fc2bb2bcae7b2d26c34f387f49014.jpg"
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background: url("{image_url}") no-repeat center center fixed;
+            background-size: cover;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+        }}
+        .stApp::before {{
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Dark overlay */
+            z-index: -1;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Apply the background image (this should be after `st.set_page_config()`)
+set_bg_image()
 
 # Configure Google Gemini API key
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
@@ -46,7 +84,6 @@ prompt = """
 """
 
 # Streamlit UI Setup
-st.set_page_config(page_title="SQL Query Generator")  # Fix: Correct parameter name
 st.header("🔍 AI-powered SQL Query Generator")
 
 # Input field for user question
